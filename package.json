@@ -1,6 +1,6 @@
 {
     "name": "jet-fetch",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "Wrapper for fetch to make clean, faster, precise and fully customizable requests",
     "main": "index.js",
     "scripts": {
@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/jet2018/js-fetch-wrapper.git"
+        "url": "git+https://github.com/OSCA-Kampala-Chapter/jet-fetch.git"
     },
     "keywords": [
         "axios",
@@ -21,9 +21,9 @@
     "license": "ISC",
     "type": "module",
     "bugs": {
-        "url": "https://github.com/jet2018/js-fetch-wrapper/issues"
+        "url": "https://github.com/OSCA-Kampala-Chapter/jet-fetch/issues"
     },
-    "homepage": "https://github.com/jet2018/js-fetch-wrapper#readme",
+    "homepage": "https://github.com/OSCA-Kampala-Chapter/jet-fetch#readme",
     "dependencies": {
         "node-fetch": "^2.6.7"
     }
