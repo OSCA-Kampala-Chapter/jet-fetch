@@ -391,3 +391,6 @@ class Jet {
         }
     }
 }
+
+
+export default Jet
