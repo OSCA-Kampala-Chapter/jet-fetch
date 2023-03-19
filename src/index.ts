@@ -20,7 +20,7 @@ interface Configuration {
 }
 
 export class Jet {
-  baseUrl: string|null;
+  baseUrl: string | null;
   token: any;
   tokenBearerKey: string;
   sendTokenAs: string;
