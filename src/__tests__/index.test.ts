@@ -16,17 +16,17 @@ test('post request', () => {
     body: 'bar',
     userId: 1,
   };
-  const resp =  jet.post('todos/1', body);
+  const resp = jet.post('todos/1', body);
   expect(resp).toBeInstanceOf(Promise<{ res: Object; response: Object }>);
 });
 
 test('post request secured', () => {
-    jet.token = "thisismytesttokenthathastobeattachedintheheadersoftherequest"
-    let body = {
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
-    };
+  jet.token = 'thisismytesttokenthathastobeattachedintheheadersoftherequest';
+  let body = {
+    title: 'foo',
+    body: 'bar',
+    userId: 1,
+  };
   expect(jet.posts('posts/', body)).toBeInstanceOf(Promise<{ res: Object; response: Object }>);
 });
 
