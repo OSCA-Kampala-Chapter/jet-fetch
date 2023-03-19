@@ -92,7 +92,7 @@ With just the above, the library will try to load the JWT from the localstorage,
 
 ### Customising the above
 
-If your backend forexample does not expect the token as `Bearer`, maybe it expects it as `Token` or `JWT`, then your class should have an additional parameter `sendTokenAs` and if not defined, it will always default to `Bearer`.
+If your backend, for example, does not expect the token as `Bearer`, maybe it expects it as `Token` or `JWT`, then your class should have an additional parameter `sendTokenAs` and if not defined, it will always default to `Bearer`.
 
 Example:
 
