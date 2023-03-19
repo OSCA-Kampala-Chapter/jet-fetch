@@ -168,7 +168,7 @@ With just the above, the library will try to load the JWT from the localstorage,
 
 ### Customising the above
 
-If your backend forexample does not expect the token as `Bearer`, maybe it expects it as `Token` or `JWT`, then your class should have an additional parameter `sendTokenAs` and if not defined, it will always default to `Bearer`.
+If your backend, for example, does not expect the token as `Bearer`, maybe it expects it as `Token` or `JWT`, then your class should have an additional parameter `sendTokenAs` and if not defined, it will always default to `Bearer`.
 
 Example:
 
@@ -363,6 +363,8 @@ From version 1.1.2, Jest-powered tests were added to the package and to run them
 ```shell
 npm test
 ```
+
+Good luck with the new way of having fun with `APIs`.
 
 Most of the scenarios are summarised in 5 tests, which by end will have run every single line of the package thus being bug-free.
 
