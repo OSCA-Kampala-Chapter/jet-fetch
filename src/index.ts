@@ -1,6 +1,6 @@
 /**
  * The Jet Class configurations
- * @param baseUrl string, the request base url and it is reqiured
+ * @param baseUrl string, the request base url and it is optional
  * @param interceptWithJWTAuth boolean, defaults to false, if true, the package will attempt attaching the jwt token as explained in the docs
  * @param token any, This can be any source of token like a function to execute to obtain, a token itself, once provided, the
  * package won't be checking localstorage for any token, but will always refer to it for the token
@@ -10,7 +10,7 @@
  * @since 19th/03/23 @param cachable boolean, defaults to true, this makes requests cached thus improving the perfomance of the request. Once its on, it add the {'cache': 'default'} to the headers, and once turned off, it turns the same to 'no-cache'. Still this can be overriden by passing the cache header on your subsequent request headers. To globally disable caching, turn this off.
  */
 interface Configuration {
-  baseUrl: string;
+  baseUrl?: string;
   interceptWithJWTAuth?: boolean;
   token?: any;
   tokenBearerKey?: string;
@@ -20,7 +20,7 @@ interface Configuration {
 }
 
 export class Jet {
-  baseUrl: string;
+  baseUrl: string | null;
   token: any;
   tokenBearerKey: string;
   sendTokenAs: string;
@@ -30,7 +30,7 @@ export class Jet {
 
   constructor(options: Configuration) {
     // let configOptions = ÷{...configuration, ...options} // merge what the user sent with what we have, override defaults
-    this.baseUrl = options.baseUrl;
+    this.baseUrl = options?.baseUrl || null;
     this.token = options?.token || null;
     this.tokenBearerKey = options?.tokenBearerKey || 'SecretKey';
     this.sendTokenAs = options?.sendTokenAs || 'Bearer';
