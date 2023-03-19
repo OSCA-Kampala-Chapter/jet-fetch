@@ -264,7 +264,7 @@ jet.custom(url, type, body = {}, headers={}, config = {}, secure=false)
 
 Note: The new param `secure` added to make a custom request that will actually check for the token.
 
-Goodluck with the new way of having fun with `APIs`.
+Good luck with the new way of having fun with `APIs`.
 
 ## Contributing
 
