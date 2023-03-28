@@ -270,6 +270,8 @@ Goodluck with the new way of having fun with `APIs`.
 
 Thanks to those have tested the Plugin and contributed and we still welcome more..!
 
+Please get started by reading through our [contributing guide](https://github.com/OSCA-Kampala-Chapter/jet-fetch/blob/jet/CONTRIBUTING.md)
+
 To contribute, fork this repo, make your changes, test them and then make a pull request.
 
 ## License
