@@ -372,6 +372,8 @@ Most of the scenarios are summarised in 5 tests, which by end will have run ever
 
 Thanks to those that have tested the Plugin and contributed and we still welcome more..!
 
+Please get started by reading through our [contributing guide](https://github.com/OSCA-Kampala-Chapter/jet-fetch/blob/jet/CONTRIBUTING.md)
+
 To contribute, fork this repo, make your changes, test them and then make a pull request.
 
 ## License
