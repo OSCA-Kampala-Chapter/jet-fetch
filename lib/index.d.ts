@@ -1,6 +1,6 @@
 /**
  * The Jet Class configurations
- * @param baseUrl string, the request base url and it is reqiured
+ * @param baseUrl string, the request base url and it is optional
  * @param interceptWithJWTAuth boolean, defaults to false, if true, the package will attempt attaching the jwt token as explained in the docs
  * @param token any, This can be any source of token like a function to execute to obtain, a token itself, once provided, the
  * package won't be checking localstorage for any token, but will always refer to it for the token
@@ -10,7 +10,7 @@
  * @since 19th/03/23 @param cachable boolean, defaults to true, this makes requests cached thus improving the perfomance of the request. Once its on, it add the {'cache': 'default'} to the headers, and once turned off, it turns the same to 'no-cache'. Still this can be overriden by passing the cache header on your subsequent request headers. To globally disable caching, turn this off.
  */
 interface Configuration {
-    baseUrl: string;
+    baseUrl?: string;
     interceptWithJWTAuth?: boolean;
     token?: any;
     tokenBearerKey?: string;
@@ -19,7 +19,7 @@ interface Configuration {
     cachable?: boolean;
 }
 export declare class Jet {
-    baseUrl: string;
+    baseUrl: string | null;
     token: any;
     tokenBearerKey: string;
     sendTokenAs: string;
@@ -89,13 +89,17 @@ export declare class Jet {
         find(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
         findIndex(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): number;
         fill(value: [string, string], start?: number | undefined, end?: number | undefined): [string, string][];
-        copyWithin(target: number, start: number, end?: number | undefined): [string, string][];
+        copyWithin(target: number, start?: number | undefined, end?: number | undefined): [string, string][];
         entries(): IterableIterator<[number, [string, string]]>;
         keys(): IterableIterator<number>;
         values(): IterableIterator<[string, string]>;
         includes(searchElement: [string, string], fromIndex?: number | undefined): boolean;
         flatMap<U_3, This = undefined>(callback: (this: This, value: [string, string], index: number, array: [string, string][]) => U_3 | readonly U_3[], thisArg?: This | undefined): U_3[];
         flat<A, D extends number = 1>(this: A, depth?: D | undefined): FlatArray<A, D>[];
+        at(index: number): [string, string] | undefined;
+        findLast<S_3 extends [string, string]>(predicate: (value: [string, string], index: number, array: [string, string][]) => value is S_3, thisArg?: any): S_3 | undefined;
+        findLast(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
+        findLastIndex(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): number;
         [Symbol.iterator](): IterableIterator<[string, string]>;
         [Symbol.unscopables]: {
             [x: number]: boolean | undefined;
@@ -131,11 +135,12 @@ export declare class Jet {
             includes?: boolean | undefined;
             flatMap?: boolean | undefined;
             flat?: boolean | undefined;
+            at?: boolean | undefined;
+            findLast?: boolean | undefined;
+            findLastIndex?: boolean | undefined;
             [Symbol.iterator]?: boolean | undefined;
             readonly [Symbol.unscopables]?: boolean | undefined;
-            at?: boolean | undefined;
         };
-        at(index: number): [string, string] | undefined;
     } | {
         cache: string;
         append(name: string, value: string): void;
@@ -144,15 +149,6 @@ export declare class Jet {
         has(name: string): boolean;
         set(name: string, value: string): void;
         forEach(callbackfn: (value: string, key: string, parent: Headers) => void, thisArg?: any): void;
-        /**
-         * Checks if an object is empty
-         * @param {object} obj The object to check
-         * @returns bool
-         */
-        entries(): IterableIterator<[string, string]>;
-        keys(): IterableIterator<string>;
-        values(): IterableIterator<string>;
-        [Symbol.iterator](): IterableIterator<[string, string]>;
     };
     _setHeaders(headers: HeadersInit | undefined): {
         cache: string;
@@ -193,13 +189,17 @@ export declare class Jet {
         find(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
         findIndex(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): number;
         fill(value: [string, string], start?: number | undefined, end?: number | undefined): [string, string][];
-        copyWithin(target: number, start: number, end?: number | undefined): [string, string][];
+        copyWithin(target: number, start?: number | undefined, end?: number | undefined): [string, string][];
         entries(): IterableIterator<[number, [string, string]]>;
         keys(): IterableIterator<number>;
         values(): IterableIterator<[string, string]>;
         includes(searchElement: [string, string], fromIndex?: number | undefined): boolean;
         flatMap<U_3, This = undefined>(callback: (this: This, value: [string, string], index: number, array: [string, string][]) => U_3 | readonly U_3[], thisArg?: This | undefined): U_3[];
         flat<A, D extends number = 1>(this: A, depth?: D | undefined): FlatArray<A, D>[];
+        at(index: number): [string, string] | undefined;
+        findLast<S_3 extends [string, string]>(predicate: (value: [string, string], index: number, array: [string, string][]) => value is S_3, thisArg?: any): S_3 | undefined;
+        findLast(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
+        findLastIndex(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): number;
         [Symbol.iterator](): IterableIterator<[string, string]>;
         [Symbol.unscopables]: {
             [x: number]: boolean | undefined;
@@ -235,11 +235,12 @@ export declare class Jet {
             includes?: boolean | undefined;
             flatMap?: boolean | undefined;
             flat?: boolean | undefined;
+            at?: boolean | undefined;
+            findLast?: boolean | undefined;
+            findLastIndex?: boolean | undefined;
             [Symbol.iterator]?: boolean | undefined;
             readonly [Symbol.unscopables]?: boolean | undefined;
-            at?: boolean | undefined;
         };
-        at(index: number): [string, string] | undefined;
         cache: string;
     } | {
         append(name: string, value: string): void;
@@ -248,15 +249,6 @@ export declare class Jet {
         has(name: string): boolean;
         set(name: string, value: string): void;
         forEach(callbackfn: (value: string, key: string, parent: Headers) => void, thisArg?: any): void;
-        /**
-         * Checks if an object is empty
-         * @param {object} obj The object to check
-         * @returns bool
-         */
-        entries(): IterableIterator<[string, string]>;
-        keys(): IterableIterator<string>;
-        values(): IterableIterator<string>;
-        [Symbol.iterator](): IterableIterator<[string, string]>;
         cache: string;
     } | {
         cache: string;
@@ -294,13 +286,17 @@ export declare class Jet {
         find(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
         findIndex(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): number;
         fill(value: [string, string], start?: number | undefined, end?: number | undefined): [string, string][];
-        copyWithin(target: number, start: number, end?: number | undefined): [string, string][];
+        copyWithin(target: number, start?: number | undefined, end?: number | undefined): [string, string][];
         entries(): IterableIterator<[number, [string, string]]>;
         keys(): IterableIterator<number>;
         values(): IterableIterator<[string, string]>;
         includes(searchElement: [string, string], fromIndex?: number | undefined): boolean;
         flatMap<U_3, This = undefined>(callback: (this: This, value: [string, string], index: number, array: [string, string][]) => U_3 | readonly U_3[], thisArg?: This | undefined): U_3[];
         flat<A, D extends number = 1>(this: A, depth?: D | undefined): FlatArray<A, D>[];
+        at(index: number): [string, string] | undefined;
+        findLast<S_3 extends [string, string]>(predicate: (value: [string, string], index: number, array: [string, string][]) => value is S_3, thisArg?: any): S_3 | undefined;
+        findLast(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
+        findLastIndex(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): number;
         [Symbol.iterator](): IterableIterator<[string, string]>;
         [Symbol.unscopables]: {
             [x: number]: boolean | undefined;
@@ -336,11 +332,12 @@ export declare class Jet {
             includes?: boolean | undefined;
             flatMap?: boolean | undefined;
             flat?: boolean | undefined;
+            at?: boolean | undefined;
+            findLast?: boolean | undefined;
+            findLastIndex?: boolean | undefined;
             [Symbol.iterator]?: boolean | undefined;
             readonly [Symbol.unscopables]?: boolean | undefined;
-            at?: boolean | undefined;
         };
-        at(index: number): [string, string] | undefined;
     } | {
         cache: string;
         length: number;
@@ -377,13 +374,17 @@ export declare class Jet {
         find(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
         findIndex(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): number;
         fill(value: [string, string], start?: number | undefined, end?: number | undefined): [string, string][];
-        copyWithin(target: number, start: number, end?: number | undefined): [string, string][];
+        copyWithin(target: number, start?: number | undefined, end?: number | undefined): [string, string][];
         entries(): IterableIterator<[number, [string, string]]>;
         keys(): IterableIterator<number>;
         values(): IterableIterator<[string, string]>;
         includes(searchElement: [string, string], fromIndex?: number | undefined): boolean;
         flatMap<U_3, This = undefined>(callback: (this: This, value: [string, string], index: number, array: [string, string][]) => U_3 | readonly U_3[], thisArg?: This | undefined): U_3[];
         flat<A, D extends number = 1>(this: A, depth?: D | undefined): FlatArray<A, D>[];
+        at(index: number): [string, string] | undefined;
+        findLast<S_3 extends [string, string]>(predicate: (value: [string, string], index: number, array: [string, string][]) => value is S_3, thisArg?: any): S_3 | undefined;
+        findLast(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
+        findLastIndex(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): number;
         [Symbol.iterator](): IterableIterator<[string, string]>;
         [Symbol.unscopables]: {
             [x: number]: boolean | undefined;
@@ -419,11 +420,12 @@ export declare class Jet {
             includes?: boolean | undefined;
             flatMap?: boolean | undefined;
             flat?: boolean | undefined;
+            at?: boolean | undefined;
+            findLast?: boolean | undefined;
+            findLastIndex?: boolean | undefined;
             [Symbol.iterator]?: boolean | undefined;
             readonly [Symbol.unscopables]?: boolean | undefined;
-            at?: boolean | undefined;
         };
-        at(index: number): [string, string] | undefined;
     } | {
         length: number;
         toString(): string;
@@ -459,13 +461,17 @@ export declare class Jet {
         find(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
         findIndex(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): number;
         fill(value: [string, string], start?: number | undefined, end?: number | undefined): [string, string][];
-        copyWithin(target: number, start: number, end?: number | undefined): [string, string][];
+        copyWithin(target: number, start?: number | undefined, end?: number | undefined): [string, string][];
         entries(): IterableIterator<[number, [string, string]]>;
         keys(): IterableIterator<number>;
         values(): IterableIterator<[string, string]>;
         includes(searchElement: [string, string], fromIndex?: number | undefined): boolean;
         flatMap<U_3, This = undefined>(callback: (this: This, value: [string, string], index: number, array: [string, string][]) => U_3 | readonly U_3[], thisArg?: This | undefined): U_3[];
         flat<A, D extends number = 1>(this: A, depth?: D | undefined): FlatArray<A, D>[];
+        at(index: number): [string, string] | undefined;
+        findLast<S_3 extends [string, string]>(predicate: (value: [string, string], index: number, array: [string, string][]) => value is S_3, thisArg?: any): S_3 | undefined;
+        findLast(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
+        findLastIndex(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): number;
         [Symbol.iterator](): IterableIterator<[string, string]>;
         [Symbol.unscopables]: {
             [x: number]: boolean | undefined;
@@ -501,11 +507,12 @@ export declare class Jet {
             includes?: boolean | undefined;
             flatMap?: boolean | undefined;
             flat?: boolean | undefined;
+            at?: boolean | undefined;
+            findLast?: boolean | undefined;
+            findLastIndex?: boolean | undefined;
             [Symbol.iterator]?: boolean | undefined;
             readonly [Symbol.unscopables]?: boolean | undefined;
-            at?: boolean | undefined;
         };
-        at(index: number): [string, string] | undefined;
         cache: string;
     } | {
         append(name: string, value: string): void;
@@ -514,15 +521,6 @@ export declare class Jet {
         has(name: string): boolean;
         set(name: string, value: string): void;
         forEach(callbackfn: (value: string, key: string, parent: Headers) => void, thisArg?: any): void;
-        /**
-         * Checks if an object is empty
-         * @param {object} obj The object to check
-         * @returns bool
-         */
-        entries(): IterableIterator<[string, string]>;
-        keys(): IterableIterator<string>;
-        values(): IterableIterator<string>;
-        [Symbol.iterator](): IterableIterator<[string, string]>;
         cache: string;
         length: number;
         toString(): string;
@@ -557,10 +555,18 @@ export declare class Jet {
         find(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
         findIndex(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): number;
         fill(value: [string, string], start?: number | undefined, end?: number | undefined): [string, string][];
-        copyWithin(target: number, start: number, end?: number | undefined): [string, string][];
+        copyWithin(target: number, start?: number | undefined, end?: number | undefined): [string, string][];
+        entries(): IterableIterator<[number, [string, string]]>;
+        keys(): IterableIterator<number>;
+        values(): IterableIterator<[string, string]>;
         includes(searchElement: [string, string], fromIndex?: number | undefined): boolean;
         flatMap<U_3, This = undefined>(callback: (this: This, value: [string, string], index: number, array: [string, string][]) => U_3 | readonly U_3[], thisArg?: This | undefined): U_3[];
         flat<A, D extends number = 1>(this: A, depth?: D | undefined): FlatArray<A, D>[];
+        at(index: number): [string, string] | undefined;
+        findLast<S_3 extends [string, string]>(predicate: (value: [string, string], index: number, array: [string, string][]) => value is S_3, thisArg?: any): S_3 | undefined;
+        findLast(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
+        findLastIndex(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): number;
+        [Symbol.iterator](): IterableIterator<[string, string]>;
         [Symbol.unscopables]: {
             [x: number]: boolean | undefined;
             length?: boolean | undefined;
@@ -595,11 +601,12 @@ export declare class Jet {
             includes?: boolean | undefined;
             flatMap?: boolean | undefined;
             flat?: boolean | undefined;
+            at?: boolean | undefined;
+            findLast?: boolean | undefined;
+            findLastIndex?: boolean | undefined;
             [Symbol.iterator]?: boolean | undefined;
             readonly [Symbol.unscopables]?: boolean | undefined;
-            at?: boolean | undefined;
         };
-        at(index: number): [string, string] | undefined;
     } | {
         cache: string;
         append(name: string, value: string): void;
@@ -608,15 +615,6 @@ export declare class Jet {
         has(name: string): boolean;
         set(name: string, value: string): void;
         forEach(callbackfn: (value: string, key: string, parent: Headers) => void, thisArg?: any): void;
-        /**
-         * Checks if an object is empty
-         * @param {object} obj The object to check
-         * @returns bool
-         */
-        entries(): IterableIterator<[string, string]>;
-        keys(): IterableIterator<string>;
-        values(): IterableIterator<string>;
-        [Symbol.iterator](): IterableIterator<[string, string]>;
     } | {
         cache: string;
         append(name: string, value: string): void;
@@ -625,15 +623,6 @@ export declare class Jet {
         has(name: string): boolean;
         set(name: string, value: string): void;
         forEach(callbackfn: (value: string, key: string, parent: Headers) => void, thisArg?: any): void;
-        /**
-         * Checks if an object is empty
-         * @param {object} obj The object to check
-         * @returns bool
-         */
-        entries(): IterableIterator<[string, string]>;
-        keys(): IterableIterator<string>;
-        values(): IterableIterator<string>;
-        [Symbol.iterator](): IterableIterator<[string, string]>;
     } | {
         length: number;
         toString(): string;
@@ -669,13 +658,17 @@ export declare class Jet {
         find(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
         findIndex(predicate: (value: [string, string], index: number, obj: [string, string][]) => unknown, thisArg?: any): number;
         fill(value: [string, string], start?: number | undefined, end?: number | undefined): [string, string][];
-        copyWithin(target: number, start: number, end?: number | undefined): [string, string][];
+        copyWithin(target: number, start?: number | undefined, end?: number | undefined): [string, string][];
         entries(): IterableIterator<[number, [string, string]]>;
         keys(): IterableIterator<number>;
         values(): IterableIterator<[string, string]>;
         includes(searchElement: [string, string], fromIndex?: number | undefined): boolean;
         flatMap<U_3, This = undefined>(callback: (this: This, value: [string, string], index: number, array: [string, string][]) => U_3 | readonly U_3[], thisArg?: This | undefined): U_3[];
         flat<A, D extends number = 1>(this: A, depth?: D | undefined): FlatArray<A, D>[];
+        at(index: number): [string, string] | undefined;
+        findLast<S_3 extends [string, string]>(predicate: (value: [string, string], index: number, array: [string, string][]) => value is S_3, thisArg?: any): S_3 | undefined;
+        findLast(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): [string, string] | undefined;
+        findLastIndex(predicate: (value: [string, string], index: number, array: [string, string][]) => unknown, thisArg?: any): number;
         [Symbol.iterator](): IterableIterator<[string, string]>;
         [Symbol.unscopables]: {
             [x: number]: boolean | undefined;
@@ -711,11 +704,12 @@ export declare class Jet {
             includes?: boolean | undefined;
             flatMap?: boolean | undefined;
             flat?: boolean | undefined;
+            at?: boolean | undefined;
+            findLast?: boolean | undefined;
+            findLastIndex?: boolean | undefined;
             [Symbol.iterator]?: boolean | undefined;
             readonly [Symbol.unscopables]?: boolean | undefined;
-            at?: boolean | undefined;
         };
-        at(index: number): [string, string] | undefined;
         cache: string;
         append(name: string, value: string): void;
         delete(name: string): void;
@@ -729,15 +723,6 @@ export declare class Jet {
         has(name: string): boolean;
         set(name: string, value: string): void;
         forEach(callbackfn: (value: string, key: string, parent: Headers) => void, thisArg?: any): void;
-        /**
-         * Checks if an object is empty
-         * @param {object} obj The object to check
-         * @returns bool
-         */
-        entries(): IterableIterator<[string, string]>;
-        keys(): IterableIterator<string>;
-        values(): IterableIterator<string>;
-        [Symbol.iterator](): IterableIterator<[string, string]>;
         cache: string;
     };
     _setUrl(url?: string): string | undefined;
